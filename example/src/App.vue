@@ -11,16 +11,15 @@
 </template>
 
 <script>
-import CarouselContainer from 'vue-carousel-gallery/src/CarouselContainer.vue';
-import CarouselSlide from 'vue-carousel-gallery/src/CarouselSlide.vue';
+import { CarouselContainer, CarouselSlide } from "vue-carousel-gallery";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     CarouselContainer,
     CarouselSlide
-}
-}
+  },
+};
 </script>
 
 <style>

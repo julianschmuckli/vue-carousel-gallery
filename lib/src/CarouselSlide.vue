@@ -1,5 +1,5 @@
 <template>
-  <div class="carouselSlide" :style="{backgroundImage: 'url(\'' + srcUrl + '\')'}">
+  <div class="carouselSlide" :style="{backgroundImage: 'url(\'' + src + '\')'}">
   </div>
 </template>
 
