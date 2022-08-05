@@ -12,9 +12,6 @@ export default {
         }
     },
     computed: {
-        srcUrl() {
-            return "";
-        }
     }
 }
 </script>
