@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <CarouselContainer ref="firstCarousel">
-      <CarouselSlide src="./assets/first.jpg"></CarouselSlide>
+      <CarouselSlide src="./assets/first.jpg" title="Test" description="Lorem ipsum"></CarouselSlide>
       <CarouselSlide src="./assets/second.jpg"></CarouselSlide>
       <CarouselSlide src="./assets/third.jpg"></CarouselSlide>
       <CarouselSlide src="./assets/fourth.jpg"></CarouselSlide>
