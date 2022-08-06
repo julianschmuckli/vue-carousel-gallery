@@ -18,10 +18,10 @@ export default {
 
 <style>
 .carouselSlide {
-    flex-grow: 1;
     background: black;
     background-size: cover;
-    width: 300px;
-    height: 200px;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
 }
 </style>
