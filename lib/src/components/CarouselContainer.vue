@@ -1,5 +1,5 @@
 <template>
-  <div class="carouselContainer" @mouseover="onMouseOver" @mouseout="onMouseOut">
+  <div class="carouselContainer" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
     <div class="carouselSlider" ref="carouselSlider">
       <slot></slot>
     </div>
@@ -13,13 +13,16 @@ import Logger from "../logger";
 export default {
   data() {
     return {
+      _startTime: undefined,
+      _lastMouseOverAction: "mouseLeave",
+
       _totalSlides: 0,
       _carouselWidth: 0,
 
       _loopIntervalRestarted: false,
       _loopInterval: undefined,
 
-      currentSlide: 1,
+      currentSlide: 0,
       durationPerSlide: Config.animationDuration,
     };
   },
@@ -51,10 +54,13 @@ export default {
       this.$refs["carouselSlider"].style.transition =
         this.durationPerSlide + "ms linear";
     },
+    _getTimeDistanceUntilPause(currentTime) {
+      return this.durationPerSlide - ((currentTime - this._startTime) % this.durationPerSlide);
+    },
     _looping() {
       var oSlider = this.$refs["carouselSlider"];
       this.currentSlide += 1;
-      console.log(this.currentSlide);
+      Logger.log("Showing slide: " + (this.currentSlide - 1));
 
       if (this.currentSlide > this._totalSlides) {
         this._disableAnimation();
@@ -62,8 +68,6 @@ export default {
 
         oSlider.style.transform =
         "translateX(" + -this._carouselWidth * this.currentSlide + "px)";
-
-        console.log("Switched to 0");
         
         setTimeout(() => {
           this._enableAnimation();
@@ -80,6 +84,8 @@ export default {
         return;
       }
 
+      this._startTime = (new Date()).getTime();
+
       this._enableAnimation();
       this._looping();
       this._loopInterval = setInterval(this._looping, this.durationPerSlide);
@@ -87,16 +93,30 @@ export default {
     pause() {
       if (this._loopInterval) {
         clearInterval(this._loopInterval);
-        this._loopInterval = undefined;
+
+        var timeTillNextSlide = this._getTimeDistanceUntilPause((new Date()).getTime());
+        
+        setTimeout(() => {
+          this._loopInterval = undefined;
+
+          console.log("Cleared", this._lastMouseOverAction)
+
+          // If the mouse is not inside of the container, just start the carousel again.
+          if (this._lastMouseOverAction !== "mouseEnter") {
+            this.start();
+          }
+        }, timeTillNextSlide);
       }
     },
 
-    onMouseOver() {
-      Logger.log("Mouse over event");
+    onMouseEnter() {
+      this._lastMouseOverAction = "mouseEnter";
+      Logger.log("Mouse enter event");
       this.pause();
     },
-    onMouseOut() {
-      Logger.log("Mouse out event");
+    onMouseLeave() {
+      this._lastMouseOverAction = "mouseLeave";
+      Logger.log("Mouse leave event");
       this.start();
     }
   },
