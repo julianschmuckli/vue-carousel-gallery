@@ -50,9 +50,19 @@ export default {
     _disableAnimation() {
       this.$refs["carouselSlider"].style.transition = "none";
     },
-    _enableAnimation() {
+    _enableAnimation(durationPerSlide, animationType) {
+      if (durationPerSlide === undefined) {
+        durationPerSlide = this.durationPerSlide;
+      }
+
+      if (animationType === undefined) {
+        animationType = Config.animationType;
+      }
+
+      Logger.log("Enabled animation with " + durationPerSlide + " and type " + animationType);
+
       this.$refs["carouselSlider"].style.transition =
-        this.durationPerSlide + "ms linear";
+        durationPerSlide + "ms " + animationType;
     },
     _getTimeDistanceUntilPause(currentTime) {
       return this.durationPerSlide - ((currentTime - this._startTime) % this.durationPerSlide);
@@ -94,12 +104,10 @@ export default {
       if (this._loopInterval) {
         clearInterval(this._loopInterval);
 
+        // Calculate the time until the next slide has appeared and clear then the _loopInterval instance.
         var timeTillNextSlide = this._getTimeDistanceUntilPause((new Date()).getTime());
-        
         setTimeout(() => {
           this._loopInterval = undefined;
-
-          console.log("Cleared", this._lastMouseOverAction)
 
           // If the mouse is not inside of the container, just start the carousel again.
           if (this._lastMouseOverAction !== "mouseEnter") {
@@ -125,13 +133,14 @@ export default {
 
 <style>
 .carouselContainer {
-  width: 60%;
+  width: 100%;
+  height: 100vh;
   margin: 0;
   overflow: hidden;
 }
 .carouselSlider {
   display: flex;
   width: 100%;
-  height: 400px;
+  height: 100vh;
 }
 </style>
