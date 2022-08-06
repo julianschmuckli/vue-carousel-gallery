@@ -8,6 +8,7 @@
 
 <script>
 import Config from '../config';
+import Logger from "../logger";
 
 export default {
   data() {
@@ -91,9 +92,11 @@ export default {
     },
 
     onMouseOver() {
+      Logger.log("Mouse over event");
       this.pause();
     },
     onMouseOut() {
+      Logger.log("Mouse out event");
       this.start();
     }
   },

@@ -5,7 +5,8 @@ import VueCarouselGallery from "vue-carousel-gallery";
 // Register the plugin
 Vue.use(VueCarouselGallery, {
   autoStart: false,
-  animationDuration: 15000
+  animationDuration: 15000,
+  debugInfo: true
 });
 
 Vue.config.productionTip = false
