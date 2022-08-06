@@ -1,5 +1,5 @@
 <template>
-  <div class="carouselContainer">
+  <div class="carouselContainer" @mouseover="onMouseOver" @mouseout="onMouseOut">
     <div class="carouselSlider" ref="carouselSlider">
       <slot></slot>
     </div>
@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import Config from '../config';
+
 export default {
   data() {
     return {
@@ -17,7 +19,7 @@ export default {
       _loopInterval: undefined,
 
       currentSlide: 1,
-      durationPerSlide: 500,
+      durationPerSlide: Config.animationDuration,
     };
   },
   mounted() {
@@ -35,6 +37,10 @@ export default {
     // Set the correct position at the beginning
     this.$refs["carouselSlider"].style.transform =
       "translateX(" + -this._carouselWidth * this.currentSlide + "px)";
+
+    if (Config.autoStart) {
+      this.start();
+    }
   },
   methods: {
     _disableAnimation() {
@@ -80,8 +86,16 @@ export default {
     pause() {
       if (this._loopInterval) {
         clearInterval(this._loopInterval);
+        this._loopInterval = undefined;
       }
     },
+
+    onMouseOver() {
+      this.pause();
+    },
+    onMouseOut() {
+      this.start();
+    }
   },
 };
 </script>

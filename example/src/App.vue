@@ -14,14 +14,8 @@
 </template>
 
 <script>
-import { CarouselContainer, CarouselSlide } from "vue-carousel-gallery";
-
 export default {
   name: "App",
-  components: {
-    CarouselContainer,
-    CarouselSlide
-  },
   methods: {
     start() {
       this.$refs["firstCarousel"].start();
