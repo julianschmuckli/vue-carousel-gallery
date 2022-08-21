@@ -21,6 +21,9 @@ export default {
 
       _loopIntervalRestarted: false,
       _loopInterval: undefined,
+      _currentTimeout: undefined,
+
+      _animationEnabled: false,
 
       currentSlide: 0,
       durationPerSlide: Config.animationDuration,
@@ -48,9 +51,21 @@ export default {
   },
   methods: {
     _disableAnimation() {
+      if (!this._animationEnabled) {
+        return false;
+      } else {
+        this._animationEnabled = false;
+      }
+
       this.$refs["carouselSlider"].style.transition = "none";
     },
     _enableAnimation(durationPerSlide, animationType) {
+      if (this._animationEnabled) {
+        return false;
+      } else {
+        this._animationEnabled = true;
+      }
+
       if (durationPerSlide === undefined) {
         durationPerSlide = this.durationPerSlide;
       }
@@ -94,6 +109,11 @@ export default {
         return;
       }
 
+      clearTimeout(this._currentTimeout);
+      this._currentTimeout = undefined;
+
+      Logger.log("Scheduled slideshow start");
+
       this._startTime = (new Date()).getTime();
 
       this._enableAnimation();
@@ -104,10 +124,22 @@ export default {
       if (this._loopInterval) {
         clearInterval(this._loopInterval);
 
+        Logger.log("$emit: beforePause");
+        this.$emit("beforePause");
+
         // Calculate the time until the next slide has appeared and clear then the _loopInterval instance.
         var timeTillNextSlide = this._getTimeDistanceUntilPause((new Date()).getTime());
-        setTimeout(() => {
+
+        // Clear the timeout in case of already defined before.
+        if (this._currentTimeout) {
+          clearTimeout(this._currentTimeout);
+          this._currentTimeout = undefined;
+        }
+
+        this._currentTimeout = setTimeout(() => {
           this._loopInterval = undefined;
+          Logger.log("$emit: onPause");
+          this.$emit("onPause");
 
           // If the mouse is not inside of the container, just start the carousel again.
           if (this._lastMouseOverAction !== "mouseEnter") {

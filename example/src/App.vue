@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <CarouselContainer ref="firstCarousel">
+    <CarouselContainer ref="firstCarousel" @beforePause="beforePause" @onPause="onPause">
       <CarouselSlide src="./assets/first.jpg" title="Test" description="Lorem ipsum"></CarouselSlide>
       <CarouselSlide src="./assets/second.jpg"></CarouselSlide>
       <CarouselSlide src="./assets/third.jpg"></CarouselSlide>
@@ -22,6 +22,12 @@ export default {
     },
     pause() {
       this.$refs["firstCarousel"].pause();
+    },
+    beforePause() {
+      console.log("Slideshow is going to pause.");
+    },
+    onPause() {
+      console.log("Slideshow paused.");
     }
   }
 };
