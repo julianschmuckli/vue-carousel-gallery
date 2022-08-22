@@ -1,5 +1,9 @@
 <template>
-  <div class="carouselContainer" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+  <div
+    class="carouselContainer"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
+  >
     <div class="carouselSlider" ref="carouselSlider">
       <slot></slot>
     </div>
@@ -7,7 +11,7 @@
 </template>
 
 <script>
-import Config from '../config';
+import Config from "../config";
 import Logger from "../logger";
 
 export default {
@@ -28,6 +32,21 @@ export default {
       currentSlide: 0,
       durationPerSlide: Config.animationDuration,
     };
+  },
+  created() {
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        Logger.log("Tab is hidden -> pausing the carousel.");
+
+        this._lastMouseOverAction = "mouseEnter"; // Simulate a pause
+        this.pause();
+      } else {
+        Logger.log("Tab is active -> starting the carousel.");
+
+        this._lastMouseOverAction = "mouseLeave"; // Simulate outside of the carousel
+        this.start();
+      }
+    }.bind(this));
   },
   mounted() {
     // Save the relevant information
@@ -74,13 +93,21 @@ export default {
         animationType = Config.animationType;
       }
 
-      Logger.log("Enabled animation with " + durationPerSlide + " and type " + animationType);
+      Logger.log(
+        "Enabled animation with " +
+          durationPerSlide +
+          " and type " +
+          animationType
+      );
 
       this.$refs["carouselSlider"].style.transition =
         durationPerSlide + "ms " + animationType;
     },
     _getTimeDistanceUntilPause(currentTime) {
-      return this.durationPerSlide - ((currentTime - this._startTime) % this.durationPerSlide);
+      return (
+        this.durationPerSlide -
+        ((currentTime - this._startTime) % this.durationPerSlide)
+      );
     },
     _looping() {
       var oSlider = this.$refs["carouselSlider"];
@@ -92,8 +119,8 @@ export default {
         this.currentSlide = 0;
 
         oSlider.style.transform =
-        "translateX(" + -this._carouselWidth * this.currentSlide + "px)";
-        
+          "translateX(" + -this._carouselWidth * this.currentSlide + "px)";
+
         setTimeout(() => {
           this._enableAnimation();
         }, this.durationPerSlide);
@@ -114,7 +141,7 @@ export default {
 
       Logger.log("Scheduled slideshow start");
 
-      this._startTime = (new Date()).getTime();
+      this._startTime = new Date().getTime();
 
       this._enableAnimation();
       this._looping();
@@ -128,7 +155,9 @@ export default {
         this.$emit("beforePause");
 
         // Calculate the time until the next slide has appeared and clear then the _loopInterval instance.
-        var timeTillNextSlide = this._getTimeDistanceUntilPause((new Date()).getTime());
+        var timeTillNextSlide = this._getTimeDistanceUntilPause(
+          new Date().getTime()
+        );
 
         // Clear the timeout in case of already defined before.
         if (this._currentTimeout) {
@@ -158,7 +187,7 @@ export default {
       this._lastMouseOverAction = "mouseLeave";
       Logger.log("Mouse leave event");
       this.start();
-    }
+    },
   },
 };
 </script>
