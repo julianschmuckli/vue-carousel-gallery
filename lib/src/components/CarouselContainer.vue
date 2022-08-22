@@ -11,6 +11,9 @@
 </template>
 
 <script>
+import 'animate.css';
+import { bus } from '../main';
+
 import Config from "../config";
 import Logger from "../logger";
 
@@ -48,17 +51,26 @@ export default {
       }
     }.bind(this));
   },
-  mounted() {
-    // Save the relevant information
-    this._carouselWidth = this.$refs["carouselSlider"].clientWidth;
-
+  beforeCreate() {
     var aSlides = this.$slots.default;
     this._totalSlides = aSlides.length;
+
+    var index = 0;
+    for (var oSlide of aSlides) {
+      oSlide.componentOptions.propsData.index = index;
+      index++;
+    }
+
+    console.log(aSlides);
 
     // Adds the clone for the slide loop animation
     aSlides.unshift(aSlides[aSlides.length - 1]);
     this.$slots.default = aSlides;
     this.$forceUpdate();
+  },
+  mounted() {
+    // Save the relevant information
+    this._carouselWidth = this.$refs["carouselSlider"].clientWidth;
 
     // Set the correct position at the beginning
     this.$refs["carouselSlider"].style.transform =
@@ -113,6 +125,9 @@ export default {
       var oSlider = this.$refs["carouselSlider"];
       this.currentSlide += 1;
       Logger.log("Showing slide: " + (this.currentSlide - 1));
+      bus.$emit("onSlide", {
+        currentSlide: this.currentSlide - 1
+      });
 
       if (this.currentSlide > this._totalSlides) {
         this._disableAnimation();
@@ -169,6 +184,9 @@ export default {
           this._loopInterval = undefined;
           Logger.log("$emit: onPause");
           this.$emit("onPause");
+          bus.$emit("onSlidePause", {
+            currentSlide: this.currentSlide - 1
+          });
 
           // If the mouse is not inside of the container, just start the carousel again.
           if (this._lastMouseOverAction !== "mouseEnter") {

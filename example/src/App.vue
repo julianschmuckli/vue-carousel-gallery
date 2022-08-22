@@ -1,15 +1,27 @@
 <template>
   <div id="app">
     <CarouselContainer ref="firstCarousel" @beforePause="beforePause" @onPause="onPause">
-      <CarouselSlide src="./assets/first.jpg" title="Test" description="Lorem ipsum"></CarouselSlide>
-      <CarouselSlide src="./assets/second.jpg"></CarouselSlide>
-      <CarouselSlide src="./assets/third.jpg"></CarouselSlide>
-      <CarouselSlide src="./assets/fourth.jpg"></CarouselSlide>
-      <CarouselSlide src="./assets/fifth.jpg"></CarouselSlide>
+      <CarouselSlide src="./assets/first.jpg" :dark="true">
+        <h4>Hello World</h4>
+        <p>This is the first slide.</p>
+      </CarouselSlide>
+      <CarouselSlide src="./assets/second.jpg">
+        <h4>Hello World</h4>
+        <p>This is the second slide.</p>
+      </CarouselSlide>
+      <CarouselSlide src="./assets/third.jpg">
+        <h4>Hello World</h4>
+        <p>This is the third slide.</p>
+      </CarouselSlide>
+      <CarouselSlide src="./assets/fourth.jpg">
+        <h4>Hello World</h4>
+        <p>This is the fourth slide.</p>
+      </CarouselSlide>
+      <CarouselSlide src="./assets/fifth.jpg">
+        <h4>Hello World</h4>
+        <p>This is the last slide.</p>
+      </CarouselSlide>
     </CarouselContainer>
-    <br>
-    <button @click="start">Start</button>
-    <button @click="pause">Pause</button>
   </div>
 </template>
 
@@ -17,12 +29,6 @@
 export default {
   name: "App",
   methods: {
-    start() {
-      this.$refs["firstCarousel"].start();
-    },
-    pause() {
-      this.$refs["firstCarousel"].pause();
-    },
     beforePause() {
       console.log("Slideshow is going to pause.");
     },
