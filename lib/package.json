@@ -1,6 +1,7 @@
 {
   "name": "vue-carousel-gallery",
-  "version": "0.1.0",
+  "description": "Vue Carousel Gallery",
+  "version": "0.1.1",
   "private": false,
   "main": "src/main.js",
   "scripts": {
