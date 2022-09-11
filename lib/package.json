@@ -1,7 +1,27 @@
 {
   "name": "vue-carousel-gallery",
   "description": "Vue Carousel Gallery",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "keywords": [
+    "vue",
+    "vuejs",
+    "vue-carousel",
+    "vue-gallery",
+    "vue-image-gallery",
+    "vue-image-carousel",
+    "vue-carousel-gallery",
+    "vue-image-carousel-gallery"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Julian Schmuckli",
+    "email": "julian@schmuckli.net"
+  },
+  "homepage": "https://github.com/julianschmuckli/vue-carousel-gallery",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julianschmuckli/vue-carousel-gallery"
+  },
   "private": false,
   "main": "src/main.js",
   "scripts": {

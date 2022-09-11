@@ -40,4 +40,4 @@ To use the plugin now, create a `CarouselContainer` and add some slides (`Carous
     </CarouselSlide>
 </CarouselContainer>
 ```
-Now the carousel should appear with the given image paths and content, when hovering over the carousel.
+Now the carousel should appear with the given image paths and content when hovering over the carousel.
