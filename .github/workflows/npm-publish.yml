@@ -19,7 +19,6 @@ jobs:
       - run: |
              cd lib
              npm ci
-             npm test
 
   publish-npm:
     name: Publish
