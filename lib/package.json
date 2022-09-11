@@ -1,7 +1,7 @@
 {
   "name": "vue-carousel-gallery",
   "description": "Vue Carousel Gallery",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "keywords": [
     "vue",
     "vuejs",
@@ -17,7 +17,7 @@
     "name": "Julian Schmuckli",
     "email": "julian@schmuckli.net"
   },
-  "homepage": "https://github.com/julianschmuckli/vue-carousel-gallery",
+  "homepage": "https://vue-carousel-gallery.netlify.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/julianschmuckli/vue-carousel-gallery"
