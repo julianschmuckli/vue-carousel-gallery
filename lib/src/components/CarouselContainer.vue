@@ -57,8 +57,10 @@ export default {
 
     var index = 0;
     for (var oSlide of aSlides) {
-      oSlide.componentOptions.propsData.index = index;
-      index++;
+      if (oSlide.componentOptions && oSlide.componentOptions.propsData) {
+        oSlide.componentOptions.propsData.index = index;
+        index++;
+      }
     }
 
     console.log(aSlides);
